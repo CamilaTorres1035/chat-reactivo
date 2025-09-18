@@ -1,24 +1,27 @@
-<!-- Formulario reactivo para ingresar el nombre de usuario -->
+<!--
+    Si el campo está vacío o el nombre ya está en uso, muestra un mensaje de error.
+    Formulario para que el usuario escriba su nombre y se una al chat.
+-->
 <form [formGroup]="joinForm" (ngSubmit)="onSubmit()" class="join-form">
-	<!-- Etiqueta para el campo de nombre -->
+	<!-- Etiqueta que indica qué debe escribir el usuario -->
 	<label for="name">Nombre de usuario</label>
-	<!-- Campo de texto vinculado al FormControl 'name' -->
+	<!-- Campo de texto donde el usuario escribe su nombre -->
 	<input id="name" type="text" formControlName="name" placeholder="Ingresa tu nombre" />
 
-	<!-- Mensaje de error si el campo está vacío y fue tocado -->
+	<!-- Si el campo está vacío y el usuario ya lo tocó, muestra un mensaje de error -->
 	@if (joinForm.get('name')?.errors?.['required'] && joinForm.get('name')?.touched) {
 		<div class="error">
 			El nombre es obligatorio
 		</div>
 	}
 
-	<!-- Mensaje de error si el nombre ya está en uso -->
+	<!-- Si el nombre ya está en uso, muestra un mensaje de error -->
 	@if (nameTaken) {
 		<div class="error">
 			Ese nombre ya está en uso
 		</div>
 	}
 
-	<!-- Botón para enviar el formulario, deshabilitado si el formulario es inválido -->
+	<!-- Botón para enviar el formulario. Se desactiva si el formulario es inválido -->
 	<button type="submit" [disabled]="joinForm.invalid">Unirse al chat</button>
 </form>

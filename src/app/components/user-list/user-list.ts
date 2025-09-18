@@ -1,3 +1,4 @@
+// Componente que muestra la lista de usuarios activos en el chat
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ChatService } from '../../services/chat.service';
@@ -11,16 +12,16 @@ import { Observable } from 'rxjs';
   styleUrls: ['./user-list.scss']
 })
 export class UserList {
-  // Observable de usuarios activos
+  // Observable con la lista de usuarios activos
   users$: Observable<string[]>;
-  // Usuario actual
+  // Guarda el nombre del usuario actual
   currentUser: string | null;
 
-  // Inyecta el ChatService para acceder a los usuarios
+  // El constructor conecta el componente con el servicio de chat
   constructor(private chatService: ChatService) {
-    // Se suscribe al observable de usuarios
+    // Se conecta al observable de usuarios activos
     this.users$ = this.chatService.users$;
-    // Obtiene el usuario actual
+    // Obtiene el nombre del usuario actual
     this.currentUser = this.chatService.getCurrentUser();
   }
 }

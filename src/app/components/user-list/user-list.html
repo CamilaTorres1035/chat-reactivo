@@ -1,7 +1,11 @@
-<!-- Lista de usuarios activos en el chat -->
+<!--
+  Contenedor de la lista de usuarios activos en el chat.
+  Muestra todos los usuarios conectados y resalta al usuario actual.
+-->
 <div class="user-list">
   <h3>Usuarios activos</h3>
   <ul>
+    <!-- Por cada usuario activo, muestra su nombre. Si es el usuario actual, lo resalta -->
     <li *ngFor="let user of users$ | async" [class.current-user]="user === currentUser">
       {{ user }}
       <span *ngIf="user === currentUser" class="you">(Tú)</span>

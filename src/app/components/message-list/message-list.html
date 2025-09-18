@@ -1,14 +1,20 @@
-<!-- Lista de mensajes del chat con scroll automático al fondo -->
+<!--
+  Contenedor de la lista de mensajes del chat.
+  Hace scroll automático al fondo cuando hay nuevos mensajes.
+  Cada mensaje muestra quién lo envió, el texto y la hora.
+-->
 <div class="message-list" appScrollToBottom [triggerScroll]="messagesTrigger$ | async">
+  <!-- Por cada mensaje recibido, muestra el usuario, el texto y la hora -->
   <div *ngFor="let message of messages$ | async; trackBy: trackById" class="message">
     <span class="user">{{ message.user }}</span>:
     <span class="text">{{ message.text }}</span>
     <span class="timestamp">
+      <!-- Muestra la hora del mensaje en formato corto -->
       {{ message.timestamp?.toDate ? (message.timestamp.toDate() | date:'shortTime') : (message.timestamp | date:'shortTime') }}
     </span>
   </div>
 </div>
 <!--
-	appScrollToBottom: Directiva personalizada que hace scroll automático al fondo
-	[triggerScroll]: Se activa cada vez que cambia la lista de mensajes
+  appScrollToBottom: Directiva personalizada que hace scroll automático al fondo
+  [triggerScroll]: Se activa cada vez que cambia la lista de mensajes
 -->
