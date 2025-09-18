@@ -1,36 +1,64 @@
-// Estilos para la lista de usuarios activos
-.user-list {
-	background: #f0f2f5;
-	border-radius: 8px;
-	padding: 1rem;
-	margin-bottom: 1rem;
-	box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+/* 👥 Lista de usuarios activos */
+
+// Botón para abrir/cerrar el panel
+.user-panel.always-open {
+  position: relative;
+  width: 280px;
+  min-width: 200px;
+  max-width: 320px;
+  height: 100%;
+  background: #fff;
+  box-shadow: 2px 0 16px rgba(44,62,80,0.10);
+  border-top-right-radius: 16px;
+  border-bottom-right-radius: 16px;
+  padding: 2em 1.2em 1.2em 1.2em;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  z-index: 1;
 }
-.user-list h3 {
-	margin-top: 0;
-	margin-bottom: 0.7rem;
-	color: #3b3b98;
-	font-size: 1.1rem;
-	font-weight: 600;
+// Panel lateral fijo
+.user-panel.always-open h3 {
+  margin: 0 0 0.8rem 0;
+  color: #6c5ce7;
+  font-size: 1.05rem;
+  font-weight: 700;
 }
-.user-list ul {
-	list-style: none;
-	padding: 0;
-	margin: 0;
+// Panel lateral fijo
+.user-panel.always-open ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  overflow-y: auto;
+  max-height: 70vh;
 }
-.user-list li {
-	padding: 0.3rem 0.5rem;
-	border-radius: 4px;
-	margin-bottom: 0.2rem;
-	transition: background 0.2s;
+// Panel lateral fijo
+.user-panel.always-open li {
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  color: #2d3436;
+  transition: background 0.2s, transform 0.15s ease;
+  cursor: default;
 }
-.user-list li.current-user {
-	background: #dff9fb;
-	color: #0097e6;
-	font-weight: bold;
+// Panel lateral fijo
+.user-panel.always-open li:hover {
+  background: #f4f4f8;
+  transform: translateX(2px);
 }
-.user-list .you {
-	font-size: 0.85em;
-	color: #44bd32;
-	margin-left: 0.3em;
+// Panel lateral fijo
+.user-panel.always-open li.current-user {
+  background: rgba(108, 92, 231, 0.1);
+  color: #6c5ce7;
+  font-weight: 600;
+}
+// Panel lateral fijo
+.user-panel.always-open .you {
+  font-size: 0.8em;
+  color: #00b894;
+  margin-left: 0.3em;
+  font-weight: 500;
 }

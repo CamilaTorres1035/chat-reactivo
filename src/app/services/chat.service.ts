@@ -1,8 +1,9 @@
 // Servicio central que gestiona toda la lógica del chat y la conexión con Firebase
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { Firestore, collectionData, collection, addDoc, query, orderBy, doc, setDoc, deleteDoc, getDoc } from '@angular/fire/firestore';
+import { Database, objectVal, ref, set, remove, onDisconnect, getDatabase, listVal } from '@angular/fire/database';
 
 // Define cómo es un mensaje de chat
 export interface ChatMessage {
@@ -18,10 +19,13 @@ export class ChatService {
 
     // Observable: lista de mensajes en tiempo real
     messages$: Observable<ChatMessage[]>;
-    // Observable: lista de usuarios activos en tiempo real
+    // Observable: lista de usuarios activos en tiempo real (ahora desde RTDB)
     users$: Observable<string[]>;
 
+    private db: Database;
+
     constructor(private firestore: Firestore) {
+        this.db = inject(Database);
         // Prepara la consulta para obtener los mensajes ordenados por fecha
         const messagesRef = collection(this.firestore, 'messages');
         const messagesQuery = query(messagesRef, orderBy('timestamp', 'asc'));
@@ -31,30 +35,26 @@ export class ChatService {
             startWith([])
         ) as Observable<ChatMessage[]>;
 
-        // Escucha la lista de usuarios activos en tiempo real
-        const usersRef = collection(this.firestore, 'users');
-        this.users$ = collectionData(usersRef, { idField: 'id' }).pipe(
-            map((users: any[]) => users.map(u => u.name))
+        // Escucha la lista de usuarios activos en tiempo real desde RTDB
+        const presenceRef = ref(this.db, 'presence');
+        this.users$ = objectVal<{[key: string]: {name: string}}>(presenceRef).pipe(
+            map(obj => obj ? Object.keys(obj) : [])
         );
     }
 
     // Permite a un usuario unirse al chat
     async joinChat(name: string): Promise<boolean> {
-        // Verifica si ya hay alguien con ese nombre
-        const userRef = doc(this.firestore, 'users', name);
-        const userSnap = await getDoc(userRef);
-        if (userSnap.exists()) {
-            // Si ya existe, no deja entrar
+        // Verifica si ya hay alguien con ese nombre en RTDB
+        const presenceRef = ref(this.db, `presence/${name}`);
+        const snapshot = await (await import('firebase/database')).get(presenceRef);
+        if (snapshot.exists()) {
             return false;
         }
-        // Si no existe, lo guarda como usuario actual y lo agrega a la base de datos
         this.currentUser = name;
-        await setDoc(userRef, { name });
-
-        // Cuando el usuario cierra la pestaña, lo elimina de la lista de usuarios activos
-        window.addEventListener('unload', () => {
-            deleteDoc(userRef);
-        });
+        // Marca presencia en RTDB
+        await set(presenceRef, { name });
+        // Configura onDisconnect para eliminar al usuario si se desconecta
+        onDisconnect(presenceRef).remove();
         return true;
     }
 

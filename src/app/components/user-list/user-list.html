@@ -2,13 +2,18 @@
   Contenedor de la lista de usuarios activos en el chat.
   Muestra todos los usuarios conectados y resalta al usuario actual.
 -->
-<div class="user-list">
+<aside class="user-panel always-open">
   <h3>Usuarios activos</h3>
   <ul>
-    <!-- Por cada usuario activo, muestra su nombre. Si es el usuario actual, lo resalta -->
-    <li *ngFor="let user of users$ | async" [class.current-user]="user === currentUser">
-      {{ user }}
-      <span *ngIf="user === currentUser" class="you">(Tú)</span>
-    </li>
+    @if (allUsers.length > 0) {
+  @for (user of allUsers; track user) {
+        <li [class.current-user]="user === currentUser">
+          {{ user }}
+          @if (user === currentUser) {
+            <span class="you">(Tú)</span>
+          }
+        </li>
+      }
+    }
   </ul>
-</div>
+</aside>

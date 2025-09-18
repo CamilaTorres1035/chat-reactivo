@@ -12,16 +12,26 @@ import { Observable } from 'rxjs';
   styleUrls: ['./user-list.scss']
 })
 export class UserList {
-  // Observable con la lista de usuarios activos
   users$: Observable<string[]>;
-  // Guarda el nombre del usuario actual
   currentUser: string | null;
 
-  // El constructor conecta el componente con el servicio de chat
+  // Para el modal
+  showAll: boolean = false;
+  allUsers: string[] = [];
+
   constructor(private chatService: ChatService) {
-    // Se conecta al observable de usuarios activos
     this.users$ = this.chatService.users$;
-    // Obtiene el nombre del usuario actual
     this.currentUser = this.chatService.getCurrentUser();
+    // Suscribirse para tener la lista completa en memoria
+    this.users$.subscribe(users => {
+      this.allUsers = users;
+    });
+  }
+
+  openAllUsers() {
+    this.showAll = true;
+  }
+  closeAllUsers() {
+    this.showAll = false;
   }
 }

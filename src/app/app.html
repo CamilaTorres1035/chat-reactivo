@@ -5,10 +5,12 @@
     <app-join-chat-form></app-join-chat-form>
   } @else {
     <!-- Si hay usuario, muestra el chat -->
-    <div class="chat-container">
+    <div class="chat-layout">
       <app-user-list></app-user-list>
-      <app-message-list></app-message-list>
-      <app-message-input></app-message-input>
+      <div class="chat-main">
+        <app-message-list></app-message-list>
+        <app-message-input></app-message-input>
+      </div>
     </div>
   }
 </main>
