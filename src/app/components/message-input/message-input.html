@@ -1,0 +1,15 @@
+<!-- Formulario reactivo para escribir y enviar mensajes al chat -->
+<form [formGroup]="messageForm" (ngSubmit)="onSubmit()" class="message-form">
+	<!-- Campo de texto para el mensaje -->
+	<input type="text" formControlName="text" placeholder="Escribe un mensaje..." autocomplete="off" />
+
+	<!-- Mensaje de error si el campo está vacío y fue tocado -->
+	@if (messageForm.get('text')?.invalid && messageForm.get('text')?.touched) {
+		<div class="error">
+			El mensaje no puede estar vacío
+		</div>
+	}
+
+	<!-- Botón para enviar el mensaje, deshabilitado si el formulario es inválido -->
+	<button type="submit" [disabled]="messageForm.invalid">Enviar</button>
+</form>

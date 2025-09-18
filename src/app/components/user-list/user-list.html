@@ -1,0 +1,10 @@
+<!-- Lista de usuarios activos en el chat -->
+<div class="user-list">
+  <h3>Usuarios activos</h3>
+  <ul>
+    <li *ngFor="let user of users$ | async" [class.current-user]="user === currentUser">
+      {{ user }}
+      <span *ngIf="user === currentUser" class="you">(Tú)</span>
+    </li>
+  </ul>
+</div>

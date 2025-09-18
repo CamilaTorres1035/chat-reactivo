@@ -1,0 +1,36 @@
+// Estilos para la lista de usuarios activos
+.user-list {
+	background: #f0f2f5;
+	border-radius: 8px;
+	padding: 1rem;
+	margin-bottom: 1rem;
+	box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+.user-list h3 {
+	margin-top: 0;
+	margin-bottom: 0.7rem;
+	color: #3b3b98;
+	font-size: 1.1rem;
+	font-weight: 600;
+}
+.user-list ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+.user-list li {
+	padding: 0.3rem 0.5rem;
+	border-radius: 4px;
+	margin-bottom: 0.2rem;
+	transition: background 0.2s;
+}
+.user-list li.current-user {
+	background: #dff9fb;
+	color: #0097e6;
+	font-weight: bold;
+}
+.user-list .you {
+	font-size: 0.85em;
+	color: #44bd32;
+	margin-left: 0.3em;
+}

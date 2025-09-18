@@ -1,0 +1,24 @@
+<!-- Formulario reactivo para ingresar el nombre de usuario -->
+<form [formGroup]="joinForm" (ngSubmit)="onSubmit()" class="join-form">
+	<!-- Etiqueta para el campo de nombre -->
+	<label for="name">Nombre de usuario</label>
+	<!-- Campo de texto vinculado al FormControl 'name' -->
+	<input id="name" type="text" formControlName="name" placeholder="Ingresa tu nombre" />
+
+	<!-- Mensaje de error si el campo está vacío y fue tocado -->
+	@if (joinForm.get('name')?.errors?.['required'] && joinForm.get('name')?.touched) {
+		<div class="error">
+			El nombre es obligatorio
+		</div>
+	}
+
+	<!-- Mensaje de error si el nombre ya está en uso -->
+	@if (nameTaken) {
+		<div class="error">
+			Ese nombre ya está en uso
+		</div>
+	}
+
+	<!-- Botón para enviar el formulario, deshabilitado si el formulario es inválido -->
+	<button type="submit" [disabled]="joinForm.invalid">Unirse al chat</button>
+</form>
